@@ -1,0 +1,43 @@
+local RS = game:GetService("ReplicatedStorage")
+local Events = RS:WaitForChild("GameEvents")
+
+local Seeds = {
+	"Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Corn",
+	"Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut",
+	"Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom", "Pepper",
+	"Cacao", "BeanStalk", "Ember Lily"
+}
+
+local Gears = {
+	"Watering Can", "Basic Sprinkler", "Advanced Sprinkler", "Godly Sprinkler",
+	"Lightning Rod", "Master Sprinkler", "Trowel", "Recall Wrench"
+}
+
+local Specials = {
+	"Flower Seed Pack", "Bee Egg"
+}
+
+local function buyBatch(event, items)
+	for _, item in ipairs(items) do
+		for _ = 1, 10 do
+			event:FireServer(item)
+			task.wait()
+		end
+	end
+end
+
+while true do
+	buyBatch(Events:WaitForChild("BuySeedStock"), Seeds)
+	buyBatch(Events:WaitForChild("BuyGearStock"), Gears)
+	buyBatch(Events:WaitForChild("BuyEventShopStock"), Specials)
+
+	for i = 1,3 do
+local args = {
+	i
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyPetEgg"):FireServer(unpack(args))
+end
+
+	task.wait(10)
+end
+
